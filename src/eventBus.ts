@@ -1,11 +1,26 @@
 import { BehaviorSubject } from "rxjs";
 
-export const cartState$ = new BehaviorSubject<{ cart: any[] }>({ cart: [] });
+
+type Book ={
+    bookId: string;
+    title: string;
+    author: string;
+    quantity: number;
+    [key: string]: any; 
+  }
+  
+
+export const cartState$ = new BehaviorSubject<{ cart: Book[] }>({ cart: [] });
 export const searchState$ = new BehaviorSubject<{ query: string }>({ query: '' });
-export const selectedBookState$ = new BehaviorSubject<{ book: any }>({ book: {} });
+export const selectedBookState$ = new BehaviorSubject<{ book: Book }>({ book: {
+    bookId: "",
+    title: "",
+    author: "",
+    quantity: 0
+} });
 
 
-export const setSelectedBook = (book: any) => {
+export const setSelectedBook = (book: Book) => {
     selectedBookState$.next({book: book})
 }
 
@@ -14,7 +29,7 @@ export const setSearchQuery = (query: string) => {
     searchState$.next({query: query})
 }
 
-export const addToCart = (book: any) => {
+export const addToCart = (book: Book) => {
   const currentState = cartState$.getValue();
 
   const existingItem = currentState.cart.find((item) => item.bookId === book.bookId);
